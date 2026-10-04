@@ -1,0 +1,135 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #172554);
+  color: #f8fafc;
+}
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header__logo {
+  width: 180px;
+  height: auto;
+  cursor: pointer;
+}
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.header {
+  padding: 20px 0;
+}
+
+.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logo {
+  width: 180px;
+  height: auto;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  margin: 20px auto;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.moves {
+  background-color: #02518d;
+  padding: 10px;
+  border-radius: 50px;
+  color: rgb(253, 253, 253);
+}
+
+.pairs {
+  background-color: #02518d;
+  padding: 10px;
+  border-radius: 50px;
+  color: rgb(253, 253, 253);
+}
+
+.new-game,
+.leaderboard {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.5s ease,
+    transform 0.5s ease,
+    opacity 0.2s ease;
+}
+
+.new-game {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+.new-game:hover {
+  background-color: #7c3aed;
+}
+
+.leaderboard {
+  background-color: #14b8a6;
+  color: #ffffff;
+}
+
+.leaderboard:hover {
+  background-color: #0d9488;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 10px solid #00c6bf;
+  padding: 25px;
+  border-radius: 15px;
+  background-color: #00c6bf;
+}
+.card {
+  aspect-ratio: 1 / 1;
+  border-radius: 15px;
+  background-color: #1e293b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card--open:hover {
+  transform: translateY(0);
+}
+.card__img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.card--open .card__img {
+  opacity: 1;
+}
