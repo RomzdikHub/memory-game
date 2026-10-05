@@ -1,0 +1,240 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #172554);
+  color: #f8fafc;
+}
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header__logo {
+  width: 180px;
+  height: auto;
+  cursor: pointer;
+}
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.header {
+  padding: 20px 0;
+}
+
+.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logo {
+  width: 180px;
+  height: auto;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  margin: 20px auto;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.moves {
+  background-color: #02518d;
+  padding: 10px;
+  border-radius: 50px;
+  color: rgb(253, 253, 253);
+}
+
+.pairs {
+  background-color: #02518d;
+  padding: 10px;
+  border-radius: 50px;
+  color: rgb(253, 253, 253);
+}
+
+.new-game,
+.leaderboard {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.5s ease,
+    transform 0.5s ease,
+    opacity 0.2s ease;
+}
+
+.new-game {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+.new-game:hover {
+  background-color: #7c3aed;
+}
+
+.leaderboard {
+  background-color: #14b8a6;
+  color: #ffffff;
+}
+
+.leaderboard:hover {
+  background-color: #0d9488;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 10px solid #00c6bf;
+  padding: 25px;
+  border-radius: 15px;
+  background-color: #00c6bf;
+}
+.card {
+  aspect-ratio: 1 / 1;
+  border-radius: 15px;
+  background-color: #1e293b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+.card--open:hover {
+  transform: translateY(0);
+}
+.card__img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.card--open .card__img {
+  opacity: 1;
+}
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+/* Win-Modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 420px;
+  width: calc(100% - 40px);
+  padding: 32px;
+  background-color: #1e293b;
+  border: 3px solid #fff;
+  border-radius: 20px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.modal__title {
+  margin: 0 0 20px;
+  color: #14b8a6;
+  font-size: 32px;
+}
+
+.modal__score-moves {
+  margin-bottom: 28px;
+  color: #f8fafc;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal__newgame-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: #8b5cf6;
+  color: #ffffff;
+  transition:
+    background-color 0.5s ease,
+    transform 0.5s ease,
+    opacity 0.2s ease;
+}
+.modal__newgame-btn:hover {
+  background-color: #7c3aed;
+}
+.modal__close-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #475569;
+  color: #f8fafc;
+  max-width: 120px;
+  width: 100%;
+  transition:
+    background-color 0.5s ease,
+    transform 0.5s ease,
+    opacity 0.2s ease;
+}
+.modal__close-btn:hover {
+  background-color: #64748b;
+}
+
+.leaderboard__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.leaderboard__row {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #0f172a;
+  border-radius: 10px;
+  color: #f8fafc;
+}
+
+.leaderboard__row span:last-child {
+  text-align: right;
+}
+
+.leaderboard__empty {
+  margin-bottom: 25px;
+  color: #f8fafc;
+  font-size: 18px;
+}
