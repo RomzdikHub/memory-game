@@ -130,10 +130,13 @@ function renderCards() {
         moves.textContent = `Moves: ${movesScore}`;
         if (selectedCards[0].dataset.name === selectedCards[1].dataset.name) {
           pairsScore++;
+          if (pairsScore === 8) {
+            showWinModal();
+          }
           pairs.textContent = `Pairs: ${pairsScore} / 8`;
           selectedCards = [];
         } else {
-         timerRemove = setTimeout(function () {
+          timerRemove = setTimeout(function () {
             selectedCards[0].classList.remove("card--open");
             selectedCards[1].classList.remove("card--open");
             selectedCards = [];
@@ -147,15 +150,73 @@ function renderCards() {
 }
 renderCards();
 // NewGame-BTN---------------------------------
-newGameBtn.addEventListener("click", () => {
+function newGameStart() {
   clearTimeout(timerRemove);
   selectedCards = [];
   shuffleCards();
   canClick = true;
+
   movesScore = 0;
   moves.textContent = `Moves: ${movesScore}`;
+
   pairsScore = 0;
   pairs.textContent = `Pairs: ${pairsScore} / 8`;
+
   gameBoard.replaceChildren();
   renderCards();
-});
+}
+newGameBtn.addEventListener("click", newGameStart);
+// Win-Modal-----------------------------------------
+function showWinModal() {
+  document.body.style.overflow = "hidden";
+  const overlay = document.createElement("div");
+  overlay.classList.add("overlay");
+  document.body.appendChild(overlay);
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+  document.body.appendChild(modal);
+
+  const title = document.createElement("h2");
+  title.classList.add("modal__title");
+  title.textContent = "You WIN!!!";
+  modal.appendChild(title);
+
+  const scoreMoves = document.createElement("p");
+  scoreMoves.classList.add("modal__score-moves");
+  scoreMoves.textContent = `You won in ${movesScore} moves!`;
+  modal.appendChild(scoreMoves);
+
+  const modalBtns = document.createElement("div");
+  modalBtns.classList.add("modal__buttons");
+  modal.appendChild(modalBtns);
+
+  const modalNewGameBtn = document.createElement("button");
+  modalNewGameBtn.classList.add("modal__newgame-btn");
+  modalNewGameBtn.textContent = "New Game";
+  modalBtns.appendChild(modalNewGameBtn);
+
+  const modalCloseBtn = document.createElement("button");
+  modalCloseBtn.classList.add("modal__close-btn");
+  modalCloseBtn.textContent = "Close";
+  modalBtns.appendChild(modalCloseBtn);
+
+  function closeModal() {
+    modal.remove();
+    overlay.remove();
+    document.removeEventListener("keydown", handleEscape);
+    document.body.style.overflow = "";
+  }
+  modalCloseBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", closeModal);
+  function handleEscape(event) {
+    if (event.key === "Escape") {
+      closeModal();
+    }
+  }
+  document.addEventListener("keydown", handleEscape);
+
+  modalNewGameBtn.addEventListener("click", () => {
+    newGameStart();
+    closeModal();
+  });
+}
