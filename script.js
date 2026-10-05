@@ -132,6 +132,7 @@ function renderCards() {
           pairsScore++;
           if (pairsScore === 8) {
             showWinModal();
+            saveResult();
           }
           pairs.textContent = `Pairs: ${pairsScore} / 8`;
           selectedCards = [];
@@ -219,4 +220,26 @@ function showWinModal() {
     newGameStart();
     closeModal();
   });
+}
+// LeaderBord-------------------------------------------
+function saveResult() {
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, "0");
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const year = now.getFullYear();
+  const result = {
+    moves: movesScore,
+    date: `${day}.${month}.${year}`,
+    timestamp: now.getTime(),
+  };
+  const results = JSON.parse(localStorage.getItem("results")) || [];
+  results.push(result);
+  results.sort((a, b) => {
+    if (a.moves === b.moves) {
+      return a.timestamp - b.timestamp;
+    }
+    return a.moves - b.moves;
+  });
+  const topResults = results.slice(0, 10);
+  localStorage.setItem("results", JSON.stringify(topResults));
 }
