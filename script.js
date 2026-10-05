@@ -90,53 +90,72 @@ mainContainer.appendChild(gameBoard);
 
 // Game
 const cards = [...languages, ...languages];
-
-for (let i = cards.length - 1; i > 0; i--) {
-  const j = Math.floor(Math.random() * (i + 1));
-  const temp = cards[i];
-  cards[i] = cards[j];
-  cards[j] = temp;
+function shuffleCards() {
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = cards[i];
+    cards[i] = cards[j];
+    cards[j] = temp;
+  }
 }
+shuffleCards();
 let selectedCards = [];
 let canClick = true;
 let movesScore = 0;
 let pairsScore = 0;
-cards.forEach((card) => {
-  const cardElement = document.createElement("div");
-  cardElement.classList.add("card");
-  gameBoard.appendChild(cardElement);
-  const cardImg = document.createElement("img");
-  cardImg.classList.add("card__img");
-  cardImg.src = card.img;
-  cardImg.alt = card.name;
-  cardElement.dataset.name = card.name;
-  cardElement.appendChild(cardImg);
+let timerRemove;
+function renderCards() {
+  cards.forEach((card) => {
+    const cardElement = document.createElement("div");
+    cardElement.classList.add("card");
+    gameBoard.appendChild(cardElement);
+    const cardImg = document.createElement("img");
+    cardImg.classList.add("card__img");
+    cardImg.src = card.img;
+    cardImg.alt = card.name;
+    cardElement.dataset.name = card.name;
+    cardElement.appendChild(cardImg);
 
-  cardElement.addEventListener("click", () => {
-    if (canClick === false) {
-      return;
-    }
-    if (cardElement.classList.contains("card--open")) {
-      return;
-    }
-    cardElement.classList.add("card--open");
-    selectedCards.push(cardElement);
-    if (selectedCards.length === 2) {
-      movesScore++;
-      moves.textContent = `Moves: ${movesScore}`;
-      if (selectedCards[0].dataset.name === selectedCards[1].dataset.name) {
-        pairsScore++;
-        pairs.textContent = `Pairs: ${pairsScore} / 8`
-        selectedCards = [];
-      } else {
-        setTimeout(function () {
-          selectedCards[0].classList.remove("card--open");
-          selectedCards[1].classList.remove("card--open");
-          selectedCards = [];
-          canClick = true;
-        }, 1000);
-        canClick = false;
+    cardElement.addEventListener("click", () => {
+      if (canClick === false) {
+        return;
       }
-    }
+      if (cardElement.classList.contains("card--open")) {
+        return;
+      }
+      cardElement.classList.add("card--open");
+      selectedCards.push(cardElement);
+      if (selectedCards.length === 2) {
+        movesScore++;
+        moves.textContent = `Moves: ${movesScore}`;
+        if (selectedCards[0].dataset.name === selectedCards[1].dataset.name) {
+          pairsScore++;
+          pairs.textContent = `Pairs: ${pairsScore} / 8`;
+          selectedCards = [];
+        } else {
+         timerRemove = setTimeout(function () {
+            selectedCards[0].classList.remove("card--open");
+            selectedCards[1].classList.remove("card--open");
+            selectedCards = [];
+            canClick = true;
+          }, 1000);
+          canClick = false;
+        }
+      }
+    });
   });
+}
+renderCards();
+// NewGame-BTN---------------------------------
+newGameBtn.addEventListener("click", () => {
+  clearTimeout(timerRemove);
+  selectedCards = [];
+  shuffleCards();
+  canClick = true;
+  movesScore = 0;
+  moves.textContent = `Moves: ${movesScore}`;
+  pairsScore = 0;
+  pairs.textContent = `Pairs: ${pairsScore} / 8`;
+  gameBoard.replaceChildren();
+  renderCards();
 });
