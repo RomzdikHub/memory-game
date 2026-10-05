@@ -211,3 +211,30 @@ body {
 .modal__close-btn:hover {
   background-color: #64748b;
 }
+
+.leaderboard__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.leaderboard__row {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #0f172a;
+  border-radius: 10px;
+  color: #f8fafc;
+}
+
+.leaderboard__row span:last-child {
+  text-align: right;
+}
+
+.leaderboard__empty {
+  margin-bottom: 25px;
+  color: #f8fafc;
+  font-size: 18px;
+}

@@ -200,28 +200,77 @@ function showWinModal() {
   modalCloseBtn.classList.add("modal__close-btn");
   modalCloseBtn.textContent = "Close";
   modalBtns.appendChild(modalCloseBtn);
-
-  function closeModal() {
-    modal.remove();
-    overlay.remove();
-    document.removeEventListener("keydown", handleEscape);
-    document.body.style.overflow = "";
-  }
+  const closeModal = setupModalClosing(modal, overlay);
   modalCloseBtn.addEventListener("click", closeModal);
-  overlay.addEventListener("click", closeModal);
-  function handleEscape(event) {
-    if (event.key === "Escape") {
-      closeModal();
-    }
-  }
-  document.addEventListener("keydown", handleEscape);
 
+  modalCloseBtn.addEventListener("click", closeModal);
+
+  modalNewGameBtn.addEventListener("click", () => {
+    newGameStart();
+    closeModal();
+  });
   modalNewGameBtn.addEventListener("click", () => {
     newGameStart();
     closeModal();
   });
 }
 // LeaderBord-------------------------------------------
+function showLeaderboardModal() {
+  const overlay = document.createElement("div");
+  overlay.classList.add("overlay");
+  document.body.appendChild(overlay);
+
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+  document.body.appendChild(modal);
+
+  const title = document.createElement("h2");
+  title.classList.add("modal__title");
+  title.textContent = "Leaderboard";
+  modal.appendChild(title);
+
+  const results = JSON.parse(localStorage.getItem("results")) || [];
+
+  if (results.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.classList.add("leaderboard__empty");
+    emptyMessage.textContent = "No results yet";
+    modal.appendChild(emptyMessage);
+  } else {
+    const leaderboardList = document.createElement("div");
+    leaderboardList.classList.add("leaderboard__list");
+    modal.appendChild(leaderboardList);
+
+    results.forEach((result, index) => {
+      const row = document.createElement("div");
+      row.classList.add("leaderboard__row");
+      leaderboardList.appendChild(row);
+
+      const place = document.createElement("span");
+      place.textContent = `${index + 1}.`;
+      row.appendChild(place);
+
+      const resultMoves = document.createElement("span");
+      resultMoves.textContent = `${result.moves} moves`;
+      row.appendChild(resultMoves);
+
+      const resultDate = document.createElement("span");
+      resultDate.textContent = result.date;
+      row.appendChild(resultDate);
+    });
+  }
+  const closeBtn = document.createElement("button");
+  closeBtn.classList.add("modal__close-btn");
+  closeBtn.textContent = "Close";
+  modal.appendChild(closeBtn);
+
+  const closeModal = setupModalClosing(modal, overlay);
+
+  closeBtn.addEventListener("click", closeModal);
+}
+leaderboardBtn.addEventListener("click", showLeaderboardModal);
+
+// Save-result------------------------------------------------------
 function saveResult() {
   const now = new Date();
   const day = String(now.getDate()).padStart(2, "0");
@@ -242,4 +291,26 @@ function saveResult() {
   });
   const topResults = results.slice(0, 10);
   localStorage.setItem("results", JSON.stringify(topResults));
+}
+
+function setupModalClosing(modal, overlay) {
+  document.body.style.overflow = "hidden";
+
+  function closeModal() {
+    modal.remove();
+    overlay.remove();
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", handleEscape);
+  }
+
+  function handleEscape(event) {
+    if (event.key === "Escape") {
+      closeModal();
+    }
+  }
+
+  overlay.addEventListener("click", closeModal);
+  document.addEventListener("keydown", handleEscape);
+
+  return closeModal;
 }
